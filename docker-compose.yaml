@@ -1,0 +1,19 @@
+version: '3.7'
+x-base: &base
+  image: ruby-test-api
+  build:
+    context: .
+    dockerfile: ./ci-cd/docker/Dockerfile
+    args: &args
+      DOCKER_UID: ${DOCKER_UID}
+      DOCKER_GID: ${DOCKER_GID}
+      DOCKER_USER: ${DOCKER_USER}
+  env_file:
+    - .env
+  volumes:
+    - ".:/home/${DOCKER_USER}/workspace"
+services:
+  web:
+    <<: *base 
+    ports:
+      - "3000:3000"
